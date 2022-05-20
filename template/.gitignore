@@ -1,1 +1,16 @@
-dummy value
+.idea
+.vscode
+**/*.tfstate*
+*.tfstate*
+**/.terraform
+.terraform
+**/.terraform.lock.hcl
+.terraform.lock.hcl
+!**/.terraform-docs.yml
+!.terraform-docs.yml
+**/go.*
+go.*
+secrets.json
+secrets.yml
+**/secrets.json
+**/secrets.yml
