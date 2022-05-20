@@ -1,3 +1,1 @@
-output "repository_name" {
-  value = github_repository.template.name
-}
+dummy value
