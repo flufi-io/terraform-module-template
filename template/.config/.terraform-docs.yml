@@ -13,7 +13,36 @@ sections:
   hide: []
   show: []
 
-content: ""
+content: |-
+  Any arbitrary text can be placed anywhere in the content
+
+  {{ .Header }}
+
+  and even in between sections
+
+  {{ .Providers }}
+
+  and they don't even need to be in the default order
+
+  {{ .Outputs }}
+
+  include any relative files
+
+  {{ include "relative/path/to/file" }}
+
+  {{ .Inputs }}
+
+  # Examples
+
+  ```hcl
+  {{ include "examples/complete/main.tf" }}
+  ```
+
+  ## Resources
+
+  {{ range .Module.Resources }}
+  - {{ .GetMode }}.{{ .Spec }} ({{ .Position.Filename }}#{{ .Position.Line }})
+  {{- end }}
 
 output:
   file: ""
