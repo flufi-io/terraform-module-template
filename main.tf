@@ -1,35 +1,34 @@
 locals {
   template_files = [
-    "${path.module}/template/.config/.terraform-docs.yml",
+    "../../template/.config/.terraform-docs.yml",
 
-    "${path.module}/template/.github/workflows/atlantis.yml",
-    "${path.module}/template/.github/workflows/terraform-docs.yml",
-    "${path.module}/template/.github/workflows/terratest.yml",
-    "${path.module}/template/.github/workflows/tfsec.yml",
+    "../../template/.github/workflows/atlantis.yml",
+    "../../template/.github/workflows/terraform-docs.yml",
+    "../../template/.github/workflows/terratest.yml",
+    "../../template/.github/workflows/tfsec.yml",
 
-    "${path.module}/template/.gitignore",
-    "${path.module}/template/main.tf",
-    "${path.module}/template/variables.tf",
-    "${path.module}/template/versions.tf",
-    "${path.module}/template/outputs.tf",
-    "${path.module}/template/README.md",
+    "../../template/.gitignore",
+    "../../template/main.tf",
+    "../../template/variables.tf",
+    "../../template/versions.tf",
+    "../../template/outputs.tf",
+    "../../template/README.md",
 
-    "${path.module}/template/examples/complete/main.tf",
-    "${path.module}/template/examples/complete/variables.tf",
-    "${path.module}/template/examples/complete/versions.tf",
-    "${path.module}/template/examples/complete/outputs.tf",
-    "${path.module}/template/examples/complete/terraform.tfvars",
-    "${path.module}/template/examples/complete/providers.tf",
+    "../../template/examples/complete/main.tf",
+    "../../template/examples/complete/variables.tf",
+    "../../template/examples/complete/versions.tf",
+    "../../template/examples/complete/outputs.tf",
+    "../../template/examples/complete/terraform.tfvars",
+    "../../template/examples/complete/providers.tf",
 
-    "${path.module}/template/tests/complete/complete_test.go",
+    "../../template/tests/complete/complete_test.go",
   ]
 }
 resource "github_repository" "template" {
   name        = var.name
   description = var.description
-  visibility  = var.visibility
+  visibility  = "public"
   auto_init   = true
-
 }
 
 #resource "github_branch" "main" {
@@ -37,17 +36,27 @@ resource "github_repository" "template" {
 #  branch     = "main"
 #}
 
-resource "github_branch_default" "default"{
-  repository = github_repository.template.name
-  branch     = "main"
-}
+#resource "github_branch_default" "default"{
+#  repository = github_repository.template.name
+#  branch     = "main"
+#}
+#resource "github_branch_protection_v3" "main" {
+#  repository     = github_repository.template.name
+#  branch         = github_branch_default.default.branch
+#  enforce_admins = true
+#
+#  restrictions {
+#    users = ["pipo-flufi"]
+#  }
+#}
+
 
 resource "github_repository_file" "template_files" {
-  depends_on = [github_branch_default.default]
+  depends_on = [github_repository.template]
   for_each            = toset(local.template_files)
   repository          = github_repository.template.name
-  branch              = github_branch_default.default.branch
-  file                = each.value
+  branch              = "main"
+  file                = replace(each.value, "../../template/", "")
   content             = file(each.value)
   commit_message      = "Managed by Terraform"
   overwrite_on_create = true
