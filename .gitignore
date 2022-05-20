@@ -1,0 +1,14 @@
+.idea
+**/*.tfstate*
+*.tfstate*
+**/.terraform
+.terraform
+**/.terraform.lock.hcl
+.terraform.lock.hcl
+
+**/go.*
+go.*
+secrets.json
+secrets.yml
+**/secrets.json
+**/secrets.yml
