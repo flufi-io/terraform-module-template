@@ -1,0 +1,40 @@
+name: terratest
+on:
+  - pull_request
+  -
+env:
+  OAUTH_TOKEN_ID: ${{ secrets.OAUTH_TOKEN_ID }}
+  TFE_TOKEN: ${{ secrets.TFE_TOKEN_SANDBOX }}
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  terratest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.OIDC_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          path: main
+
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.17.0'
+      - name: run terratest
+        working-directory: main/tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.token }}
+        run: |
+          export GOOS=linux GOARCH=amd64 CGO_ENABLED=0
+          go mod init test
+          go mod tidy > /dev/null
+          go test -v -count=1 -timeout 120m ./...

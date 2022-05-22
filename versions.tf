@@ -1,8 +1,8 @@
-terraform {
-  required_providers {
-    github = {
-      source = "integrations/github"
-      version = ">=4.25.0"
-    }
-  }
-}
+#terraform {
+#  required_providers {
+#    random = {
+#      source  = "hashicorp/random"
+#      version = "3.2.0"
+#    }
+#  }
+#}

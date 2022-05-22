@@ -1,3 +1,4 @@
-output "repository_name" {
-  value = github_repository.template.name
-}
+#output "random_password" {
+#  value       = random_password.password.length
+#  description = "this is a dummy password"
+#}
