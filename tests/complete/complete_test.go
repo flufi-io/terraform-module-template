@@ -15,10 +15,8 @@ func TestCompleteExample(t *testing.T) {
 
 	// DELAY is the time in seconds to run terraform destroy after terraform apply
 	DELAY, _ := strconv.Atoi(os.Getenv("DELAY"))
-	varFiles := []string{"../../examples/complete/terraform.tfvars"}
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		TerraformDir: "../../examples/complete",
-		VarFiles:     varFiles,
 		Vars:         map[string]interface{}{},
 		Upgrade:      true,
 		Reconfigure:  true,
