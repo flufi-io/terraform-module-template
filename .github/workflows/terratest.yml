@@ -1,16 +1,31 @@
 name: terratest
 on:
   - pull_request
+  -
+env:
+  OAUTH_TOKEN_ID: ${{ secrets.OAUTH_TOKEN_ID }}
+  TFE_TOKEN: ${{ secrets.TFE_TOKEN_SANDBOX }}
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
 
 jobs:
   terratest:
     runs-on: ubuntu-latest
     steps:
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.OIDC_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
       - name: checkout
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           path: main
+
       - uses: actions/setup-go@v3
         with:
           go-version: '>=1.17.0'

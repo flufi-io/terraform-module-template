@@ -21,7 +21,7 @@ sections:
 content: |-
   # Examples
   ```hcl
-  {{ include "examples/complete/main.tf" }}
+  {{ include "examples/complete/README.md" }}
   ```
   {{ .Header }}
   {{ .Providers }}

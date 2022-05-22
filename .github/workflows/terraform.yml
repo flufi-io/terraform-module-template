@@ -1,7 +1,12 @@
 name: terraform validate
 on:
   - pull_request
-
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+env:
+  TFE_TOKEN: ${{ secrets.TFE_TOKEN_SANDBOX }}
 jobs:
   terraform-validate:
     runs-on: ubuntu-latest
@@ -10,6 +15,12 @@ jobs:
         working-directory: main/examples/complete/
 
     steps:
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.OIDC_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
       - name: checkout
         uses: actions/checkout@v3
         with:
@@ -34,7 +45,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan  -var-file=terraform.tfvars -no-color
+        run: terraform plan   -no-color
         working-directory: main/examples/complete/
         continue-on-error: true
 

@@ -11,6 +11,12 @@
 **/go.*
 go.*
 secrets.json
+**/variables.yml
+variables.yml
+!examples/complete/variables.yml
 secrets.yml
 **/secrets.json
 **/secrets.yml
+workspaces/*.yml
+!workspaces/*.enc.yml
+.env

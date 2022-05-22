@@ -2,6 +2,15 @@
 # describe other options for 'on', 'pull_request' is a good default.
 name: infracost
 on: [ pull_request ]
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+env:
+  TFE_TOKEN: ${{ secrets.TFE_TOKEN_SANDBOX }}
+
 jobs:
   infracost:
     runs-on: ubuntu-latest # The following are JavaScript actions (not Docker)
@@ -9,6 +18,12 @@ jobs:
       working-directory: main/examples/complete/ # Update this!
     name: Run Infracost
     steps:
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.OIDC_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
       - name: checkout
         uses: actions/checkout@v3
         with:
@@ -27,11 +42,11 @@ jobs:
       # IMPORTANT: add any required steps here to setup cloud credentials so Terraform can run
 
       - name: Terraform init
-        run: terraform init -var-file=terraform.tfvars
+        run: terraform init
         working-directory: ${{ env.working-directory }}
 
       - name: Terraform plan
-        run: terraform plan -var-file=terraform.tfvars -out tfplan.binary
+        run: terraform plan  -out tfplan.binary
         working-directory: ${{ env.working-directory }}
 
       - name: Terraform show
