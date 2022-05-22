@@ -1,14 +1,5 @@
-variable "name" {
-  type        = string
-  description = "Name of the repository"
-}
-variable "description" {
-  type        = string
-  description = "Description of the repository"
-}
-
-variable "visibility" {
-  type        = string
-  description = "Visibility of the repository"
-  default     = "public"
+variable "length" {
+  default     = 14
+  description = "Length of the password"
+  type        = number
 }

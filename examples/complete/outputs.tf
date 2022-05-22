@@ -1,3 +1,4 @@
-output "repository_name" {
-  value = module.repository.repository_name
+output "random_password" {
+  value       = module.random.random_password
+  description = "this is a dummy password"
 }

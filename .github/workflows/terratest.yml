@@ -1,1 +1,25 @@
-dummy value
+name: terratest
+on:
+  - pull_request
+
+jobs:
+  terratest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          path: main
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.17.0'
+      - name: run terratest
+        working-directory: main/tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.token }}
+        run: |
+          export GOOS=linux GOARCH=amd64 CGO_ENABLED=0
+          go mod init test
+          go mod tidy > /dev/null
+          go test -v -count=1 -timeout 120m ./...
