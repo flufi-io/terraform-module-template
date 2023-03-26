@@ -1,5 +1,5 @@
 environment      = "terratest"
 name             = "terraform-module-template"
-special          = "!#$%&*()-_=+[]{}<>:?"
-override_special = true
+special          = true
+override_special = "!#$%&*()-_=+[]{}<>:?"
 length           = 35
