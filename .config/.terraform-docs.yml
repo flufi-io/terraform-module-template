@@ -22,7 +22,7 @@ content: |-
   # Examples
   ```hcl
   {{ include "examples/complete/main.tf" }}
-  {{ include "examples/complete/terraform.tfvars" }}
+  {{ include "examples/complete/example.tfvars" }}
   ```
   {{ .Header }}
   {{ .Providers }}

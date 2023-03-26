@@ -1,5 +1,5 @@
 resource "random_password" "password" {
   length           = var.length
-  special          = true
-  override_special = "!#$%&*()-_=+[]{}<>:?"
+  special          = var.special
+  override_special = var.override_special
 }
