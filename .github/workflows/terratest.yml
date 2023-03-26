@@ -27,7 +27,7 @@ jobs:
           path: main
       - name: install sops
         run: |
-          curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops_3.7.3_amd64.deb
+          wget https://github.com/mozilla/sops/releases/download/v3.7.3/sops_3.7.3_amd64.deb
           sudo dpkg -i sops_3.7.3_amd64.deb
       - name: decrypt secrets
         run: |
