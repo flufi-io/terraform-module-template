@@ -33,8 +33,9 @@ jobs:
         run: |
           cd main/examples/complete
           sops -d terraform.enc > terraform.tfvars
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v4
         with:
+          cache-dependency-path: main/tests/go.mod
           go-version: '>=1.17.0'
       - name: run terratest
         working-directory: main/tests
