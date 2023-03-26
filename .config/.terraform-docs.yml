@@ -21,7 +21,8 @@ sections:
 content: |-
   # Examples
   ```hcl
-  {{ include "examples/complete/README.md" }}
+  {{ include "examples/complete/main.tf" }}
+  {{ include "examples/complete/terraform.tfvars" }}
   ```
   {{ .Header }}
   {{ .Providers }}

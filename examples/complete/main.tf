@@ -1,4 +1,4 @@
-#module "random" {
-#  source = "../../"
-#  length = var.length
-#}
+module "random" {
+  source = "../../"
+  length = var.length
+}
