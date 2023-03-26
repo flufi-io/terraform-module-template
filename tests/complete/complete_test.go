@@ -17,7 +17,7 @@ func TestCompleteExample(t *testing.T) {
 	DELAY, _ := strconv.Atoi(os.Getenv("DELAY"))
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		TerraformDir: "../../examples/complete",
-		Vars:         map[string]interface{}{},
+		VarsFiles:    []string{"terraform.tfvars"},
 		Upgrade:      true,
 		Reconfigure:  true,
 	})
