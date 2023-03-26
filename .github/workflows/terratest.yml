@@ -32,7 +32,7 @@ jobs:
       - name: decrypt secrets
         run: |
           cd main/examples/complete
-          sops -d terraform.enc.tfvars > terraform.tfvars
+          sops -d terraform.enc > terraform.tfvars
       - uses: actions/setup-go@v3
         with:
           go-version: '>=1.17.0'
