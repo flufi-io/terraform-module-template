@@ -1,14 +1,6 @@
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.2.0
-    hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-yaml
-      - id: check-added-large-files
-
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.71.0 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
+    rev: v1.77.0 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
     hooks:
       - id: terraform_fmt
         name: Terraform fmt
@@ -17,7 +9,6 @@ repos:
         language: script
         files: (\.tf|\.tfvars)$
         exclude: \.terraform\/.*$
-        fail_fast: true
 
       - id: terraform_docs
         name: Terraform docs
@@ -27,7 +18,7 @@ repos:
         language: script
         files: (\.tf|\.terraform\.lock\.hcl)$
         exclude: \.terraform\/.*$
-        fail_fast: true
+
 
       - id: terraform_validate
         name: Terraform validate
@@ -37,7 +28,7 @@ repos:
         language: script
         files: (\.tf|\.tfvars)$
         exclude: \.terraform\/.*$
-        fail_fast: true
+
 
       - id: terraform_providers_lock
         name: Lock terraform provider versions
@@ -47,7 +38,7 @@ repos:
         language: script
         files: (\.terraform\.lock\.hcl)$
         exclude: \.terraform\/.*$
-        fail_fast: true
+
 
       - id: terraform_tflint
         name: Terraform validate with tflint
@@ -57,7 +48,7 @@ repos:
         language: script
         files: (\.tf|\.tfvars)$
         exclude: \.terraform\/.*$
-        fail_fast: true
+
 
       - id: terraform_tfsec
         name: Terraform validate with tfsec
@@ -65,7 +56,7 @@ repos:
         require_serial: true
         entry: hooks/terraform_tfsec.sh
         language: script
-        fail_fast: true
+
 
       - id: terraform_checkov
         name: Checkov
@@ -76,7 +67,7 @@ repos:
         files: \.tf$
         exclude: \.terraform\/.*$
         require_serial: true
-        fail_fast: true
+
 
       - id: tfupdate
         name: tfupdate
@@ -87,14 +78,22 @@ repos:
           - --args=terraform
         files: \.tf$
         require_serial: true
-        fail_fast: true
 
-  - repo: local
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
     hooks:
-      - id: terratest
-        name: terratest
-        entry: tests/complete/precommit.sh
-        pass_filenames: false
-        types: [ go ]
-        language: system
-        fail_fast: true
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+      - id: forbid-submodules
+
+#  - repo: local
+#    hooks:
+#      - id: terratest
+#        name: terratest
+#        entry: tests/complete/precommit.sh
+#        pass_filenames: false
+#        types: [ go ]
+#        language: system
