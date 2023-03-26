@@ -20,3 +20,5 @@ secrets.yml
 workspaces/*.yml
 !workspaces/*.enc.yml
 .env
+**/terraform.tfvars
+terraform.tfvars

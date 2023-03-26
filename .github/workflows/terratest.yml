@@ -25,7 +25,14 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           path: main
-
+      - name: install sops
+        run: |
+          curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops_3.7.3_amd64.deb
+          sudo dpkg -i sops_3.7.3_amd64.deb
+      - name: decrypt secrets
+        run: |
+          cd main/examples/complete
+          sops -d terraform.enc.tfvars > terraform.tfvars
       - uses: actions/setup-go@v3
         with:
           go-version: '>=1.17.0'
