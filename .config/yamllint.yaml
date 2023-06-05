@@ -1,0 +1,14 @@
+---
+# https://yamllint.readthedocs.io/en/stable/configuration.html#default-configuration
+extends: default
+
+yaml-files:
+  - '*.yaml'
+  - '*.yml'
+
+rules:
+  line-length:
+    max: 120
+    level: warning
+  truthy:
+    check-keys: false

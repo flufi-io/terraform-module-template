@@ -1,8 +1,12 @@
 ---
-name: terraform pre-commit test
+name: terraform pre-commit
 on:
   pull_request:
-permissions: write-all
+    branches:
+      - '*'
+
+permissions:
+  contents: read
 
 env:
   DOCKER_USERNAME: ${{ github.actor }}

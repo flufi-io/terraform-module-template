@@ -1,20 +1,19 @@
+[![terratest](https://github.com/flufi-io/terraform-module-template/actions/workflows/terratest.yml/badge.svg)](https://github.com/flufi-io/terraform-module-template/actions/workflows/terratest.yml)
+[![infracost](https://github.com/flufi-io/terraform-module-template/actions/workflows/infracost.yml/badge.svg)](https://github.com/flufi-io/terraform-module-template/actions/workflows/infracost.yml)
+
 # terraform-module-template
 
 <!-- BEGIN_TF_DOCS -->
 # Examples
 ```hcl
 module "random" {
-  source = "../../"
+  source  = "../../"
+  context = module.this.context
 }
 namespace   = "flufi"
 environment = "development"
 stage       = "module"
 label_order = ["namespace", "stage", "environment"]
-tags = {
-  "namespace"   = namespace
-  "environment" = environment
-  "stage"       = stage
-}
 ```
 
 

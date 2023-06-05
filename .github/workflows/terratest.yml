@@ -1,10 +1,10 @@
+---
 name: terratest
+
 on:
-  - pull_request
-  -
-env:
-  OAUTH_TOKEN_ID: ${{ secrets.OAUTH_TOKEN_ID }}
-  TFE_TOKEN: ${{ secrets.TFE_TOKEN_SANDBOX }}
+  pull_request:
+    branches:
+      - '*'
 
 permissions:
   id-token: write
@@ -16,7 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        id: configure-aws-credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.OIDC_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
