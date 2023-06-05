@@ -1,0 +1,15 @@
+---
+version: 2
+updates:
+  # Enable version updates for terraform in the root directory
+  - package-ecosystem: "terraform"
+    directory: "/"
+    # Check for updates once a day
+    schedule:
+      interval: "daily"
+  # Enable version updates for terraform in the examples directory
+  - package-ecosystem: "terraform"
+    directory: "examples/complete"
+    # Check for updates once a day
+    schedule:
+      interval: "daily"
