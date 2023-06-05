@@ -2,6 +2,9 @@
 name: terraform pre-commit
 on:
   pull_request:
+    branches:
+      - '*'
+
 permissions:
   id-token: write
   contents: read
