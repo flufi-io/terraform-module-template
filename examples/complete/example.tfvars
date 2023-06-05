@@ -1,5 +1,9 @@
-environment      = "terratest"
-name             = "terraform-module-template"
-special          = true
-override_special = "!#$%&*()-_=+[]{}<>:?"
-length           = 35
+namespace   = "flufi"
+environment = "development"
+stage       = "module"
+label_order = ["namespace", "stage", "environment"]
+tags = {
+  "namespace"   = namespace
+  "environment" = environment
+  "stage"       = stage
+}

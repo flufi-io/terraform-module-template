@@ -1,4 +1,3 @@
-output "random_password" {
-  value       = module.random.random_password
-  description = "this is a dummy password"
+output "terraform-module-template" {
+  value = "terraform-module-template"
 }
