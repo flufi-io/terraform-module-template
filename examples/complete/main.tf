@@ -1,3 +1,4 @@
 module "random" {
-  source = "../../"
+  source  = "../../"
+  context = module.this.context
 }
