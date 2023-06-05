@@ -19,7 +19,8 @@ jobs:
     name: Run Infracost
     steps:
       - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        id: configure-aws-credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.OIDC_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
@@ -36,7 +37,7 @@ jobs:
       - name: Install terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.4.2
+          terraform_version: 1.4.6
           terraform_wrapper: false # This is recommended so the `terraform show` command outputs valid JSON
 
       # IMPORTANT: add any required steps here to setup cloud credentials so Terraform can run
