@@ -1,5 +1,5 @@
 ---
-name: infracos
+name: infracost
 
 on:
   pull_request:
