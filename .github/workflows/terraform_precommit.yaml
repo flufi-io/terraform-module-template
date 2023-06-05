@@ -1,23 +1,33 @@
 ---
-name: terraform pre-commit
+name: terraform-pre-commit
+
 on:
-  pull_request:
-    branches:
-      - '*'
-
+  workflow_call:
+    inputs:
+      ref:
+        description: 'Branch or commit to checkout'
+        required: true
+        type: string
 permissions:
-  id-token: write
   contents: read
-  pull-requests: write
-  packages: read
-
-env:
-  DOCKER_USERNAME: ${{ github.actor }}
-  DOCKER_PASSWORD: ${{ secrets.GH_TOKEN }}
 
 jobs:
   pre-commit:
-    uses: flufi-io/workflows/.github/workflows/terraform_precommit.yaml@main
-    with:
-      ref: ${{ github.event.pull_request.head.sha }}
-    secrets: inherit
+    runs-on: ubuntu-latest
+    container: ghcr.io/flufi-io/docker-terraform-action:latest
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          ref: ${{ inputs.ref }}
+          path: main
+
+      - name: Set up pre-commit hooks
+        run: pre-commit install --install-hooks
+        working-directory: main
+
+      - name: Run pre-commit checks
+        run: pre-commit run -a
+        working-directory: main
