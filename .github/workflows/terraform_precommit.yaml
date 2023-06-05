@@ -10,7 +10,7 @@ env:
 
 jobs:
   pre-commit:
-    uses: ./.github/workflows/terraform_precommit.yaml
+    uses: flufi-io/workflows/.github/workflows/terraform_precommit.yaml@main
     with:
       ref: ${{ github.event.pull_request.head.sha }}
     secrets: inherit
