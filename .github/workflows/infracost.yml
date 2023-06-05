@@ -33,7 +33,7 @@ jobs:
           path: main
 
       - name: Install terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.4.6
           terraform_wrapper: false
