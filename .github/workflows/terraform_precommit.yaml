@@ -1,0 +1,16 @@
+---
+name: terraform pre-commit test
+on:
+  pull_request:
+permissions: write-all
+
+env:
+  DOCKER_USERNAME: ${{ github.actor }}
+  DOCKER_PASSWORD: ${{ secrets.GH_TOKEN }}
+
+jobs:
+  pre-commit:
+    uses: ./.github/workflows/terraform_precommit.yaml
+    with:
+      ref: ${{ github.event.pull_request.head.sha }}
+    secrets: inherit
