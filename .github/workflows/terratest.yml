@@ -10,6 +10,8 @@ permissions:
   id-token: write
   contents: read
   pull-requests: write
+  issues: write
+  repository-projects: write
 
 jobs:
   terratest:
@@ -38,6 +40,7 @@ jobs:
         with:
           cache-dependency-path: main/tests/go.mod
           go-version: '>=1.17.0'
+
       - name: run terratest
         working-directory: main/tests
         env:
@@ -47,3 +50,9 @@ jobs:
           go mod init test
           go mod tidy > /dev/null
           go test -v -count=1 -timeout 120m ./...
+
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
