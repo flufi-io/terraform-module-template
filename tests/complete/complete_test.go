@@ -17,7 +17,7 @@ func TestWorkspace(t *testing.T) {
 
 	// Generate a random string
 	randHash := uuid.New().String()
-	originalName := terraform.GetVariableAsStringFromVarFile(t, "terraform.tfvars", "name")
+	originalName := terraform.GetVariableAsStringFromVarFile(t, "../../examples/complete/terraform.tfvars", "name")
 
 	// Update the name variable with the original value plus the hash
 	name := originalName + randHash
