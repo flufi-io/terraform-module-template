@@ -12,7 +12,7 @@ import (
 
 var TimeToDestroy, _ = strconv.Atoi(os.Getenv("TIME_TO_DESTROY"))
 
-func TestWorkspace(t *testing.T) {
+func Test(t *testing.T) {
 	t.Parallel()
 
 	// Generate a random string
