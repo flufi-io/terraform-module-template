@@ -36,7 +36,7 @@ func TestWorkspace(t *testing.T) {
 	defer func() {
 		timer(TimeToDestroy)
 	}()
-	
+
 	terraform.InitAndApply(t, terraformOptions)
 }
 
