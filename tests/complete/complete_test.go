@@ -1,45 +1,81 @@
 package test
 
 import (
+	"crypto/rand"
+	"encoding/hex"
+	"fmt"
 	"github.com/gruntwork-io/terratest/modules/terraform"
-	"github.com/joho/godotenv"
-	"log"
 	"os"
 	"strconv"
 	"testing"
 	"time"
 )
 
-func TestCompleteExample(t *testing.T) {
-	godotenv.Load("../../.env")
+var TimeToDestroy, _ = strconv.Atoi(os.Getenv("TIME_TO_DESTROY"))
 
-	// DELAY is the time in seconds to run terraform destroy after terraform apply
-	DELAY, _ := strconv.Atoi(os.Getenv("DELAY"))
-	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir: "../../examples/complete",
-		Upgrade:      true,
-		Reconfigure:  true,
-		VarFiles:     []string{"terraform.tfvars"},
-	})
+func TestWorkspace(t *testing.T) {
+	t.Parallel()
+
+	// Generate a random string
+	randHash, _ := generateRandomString(10)
+	tempTfvarsFile := fmt.Sprintf("terraform_%s.tfvars", randHash)
+
+	// Prepare the content for the tfvars file
+	content := []byte(fmt.Sprintf("name = %s", randHash))
+
+	// Write the content to the tfvars file
+	err := os.WriteFile(tempTfvarsFile, content, 0644)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	originalName := terraform.GetVariableAsStringFromVarFile(t, tempTfvarsFile, "name")
+
+	// Update the name variable with the original value plus the hash
+	name := originalName + randHash
+
+	terraformOptions := &terraform.Options{
+		TerraformDir: "../../examples/complete/",
+		VarFiles:     []string{tempTfvarsFile},
+		Vars: map[string]interface{}{
+			"name": name,
+		},
+		Upgrade:     true,
+		Reconfigure: true,
+	}
 
 	defer terraform.Destroy(t, terraformOptions)
-	// Delay the execution of the terraform destroy
 	defer func() {
-		delay(DELAY)
+		timer(TimeToDestroy)
+	}()
+
+	defer func() {
+		err := os.Remove(tempTfvarsFile) // Clean up the temporary tfvars file
+		if err != nil {
+			t.Logf("Failed to remove temp file %s: %v", tempTfvarsFile, err)
+		}
 	}()
 
 	terraform.InitAndApply(t, terraformOptions)
-
 }
 
-func delay(seconds int) {
+func generateRandomString(length int) (string, error) {
+	bytes := make([]byte, length)
+	_, err := rand.Read(bytes)
+	if err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(bytes), nil
+}
+
+func timer(s int) {
 	for {
-		if seconds <= 0 {
+		if s <= 0 {
 			break
 		} else {
-			log.Println(seconds)
-			time.Sleep(1 * time.Second)
-			seconds--
+			fmt.Println(s)
+			time.Sleep(1 * time.Second) // wait 1 sec
+			s--                         // reduce time
 		}
 	}
 }
