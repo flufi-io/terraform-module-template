@@ -1,9 +1,8 @@
 package test
 
 import (
-	"crypto/rand"
-	"encoding/hex"
 	"fmt"
+	"github.com/google/uuid"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"os"
 	"strconv"
@@ -17,26 +16,15 @@ func TestWorkspace(t *testing.T) {
 	t.Parallel()
 
 	// Generate a random string
-	randHash, _ := generateRandomString(10)
-	tempTfvarsFile := fmt.Sprintf("terraform_%s.tfvars", randHash)
-
-	// Prepare the content for the tfvars file
-	content := []byte(fmt.Sprintf("name = %s", randHash))
-
-	// Write the content to the tfvars file
-	err := os.WriteFile(tempTfvarsFile, content, 0644)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	originalName := terraform.GetVariableAsStringFromVarFile(t, tempTfvarsFile, "name")
+	randHash := uuid.New().String()
+	originalName := terraform.GetVariableAsStringFromVarFile(t, "terraform.tfvars", "name")
 
 	// Update the name variable with the original value plus the hash
 	name := originalName + randHash
 
 	terraformOptions := &terraform.Options{
 		TerraformDir: "../../examples/complete/",
-		VarFiles:     []string{tempTfvarsFile},
+		VarFiles:     []string{"terraform.tfvars"},
 		Vars: map[string]interface{}{
 			"name": name,
 		},
@@ -48,24 +36,8 @@ func TestWorkspace(t *testing.T) {
 	defer func() {
 		timer(TimeToDestroy)
 	}()
-
-	defer func() {
-		err := os.Remove(tempTfvarsFile) // Clean up the temporary tfvars file
-		if err != nil {
-			t.Logf("Failed to remove temp file %s: %v", tempTfvarsFile, err)
-		}
-	}()
-
+	
 	terraform.InitAndApply(t, terraformOptions)
-}
-
-func generateRandomString(length int) (string, error) {
-	bytes := make([]byte, length)
-	_, err := rand.Read(bytes)
-	if err != nil {
-		return "", err
-	}
-	return hex.EncodeToString(bytes), nil
 }
 
 func timer(s int) {
