@@ -19,12 +19,30 @@ jobs:
       working-directory: main/examples/complete/
 
     steps:
+      - name: Configure 1Password Service Account
+        uses: 1password/load-secrets-action/configure@v1
+        with:
+          # Persist the 1Password Service Account Authorization token
+          # for next steps.
+          # Keep in mind that every single step in the job is now able
+          # to access the token.
+          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
+      - name: Load  1password credentials
+        uses: 1password/load-secrets-action@v1
+        with:
+          # Export loaded secrets as environment variables
+          export-env: true
+        env:
+          OIDC_ROLE: op://flufi-sandbox/aws-github-oidc/role
+          AWS_REGION: op://flufi-sandbox/aws-github-oidc/region
+
       - name: configure aws credentials
         id: configure-aws-credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.OIDC_ROLE }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ env.OIDC_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: checkout
         uses: actions/checkout@v3
