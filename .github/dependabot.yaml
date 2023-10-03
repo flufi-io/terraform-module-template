@@ -13,3 +13,12 @@ updates:
     # Check for updates once a day
     schedule:
       interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "tests/complete"
+    # Check for updates once a day
+    schedule:
+      interval: "daily"
+  - package-ecosystem: github-actions
+    directory: ".github/workflows"
+    schedule:
+      interval: "daily"
