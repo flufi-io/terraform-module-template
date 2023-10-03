@@ -41,8 +41,8 @@ jobs:
         id: configure-aws-credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ fromJson(env.SECRETS).cicd.json.aws.role }}
-          aws-region: ${{ fromJson(env.SECRETS).cicd.json.aws.region }}
+          role-to-assume: ${{ fromJson(env.SECRETS).aws.role }}
+          aws-region: ${{ fromJson(env.SECRETS).aws.region }}
 
       - name: checkout
         uses: actions/checkout@v3
