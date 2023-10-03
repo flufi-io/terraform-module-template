@@ -9,70 +9,8 @@ on:
 permissions:
   id-token: write
   contents: read
-  pull-requests: write
-  issues: write
-  repository-projects: write
 
 jobs:
   terratest:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Configure 1Password Service Account
-        uses: 1password/load-secrets-action/configure@v1
-        with:
-          # Persist the 1Password Service Account Authorization token
-          # for next steps.
-          # Keep in mind that every single step in the job is now able
-          # to access the token.
-          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-
-      - name: Load  1password credentials
-        uses: 1password/load-secrets-action@v1
-        with:
-          # Export loaded secrets as environment variables
-          export-env: true
-        env:
-          SECRETS: op://flufi-sandbox/cicd/json
-
-
-      - name: configure aws credentials
-        id: configure-aws-credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ fromJson(env.SECRETS).cicd.aws.role }}
-          aws-region: ${{ fromJson(env.SECRETS).cicd.aws.region }}
-
-
-      - name: checkout
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          path: main
-
-      - name: install sops
-        run: |
-          wget https://github.com/mozilla/sops/releases/download/v3.7.3/sops_3.7.3_amd64.deb
-          sudo dpkg -i sops_3.7.3_amd64.deb
-
-      - name: decrypt secrets
-        run: |
-          cd main/examples/complete
-          sops -d terraform.enc > terraform.tfvars
-
-      - uses: actions/setup-go@v4
-        with:
-          cache-dependency-path: main/tests/go.mod
-          go-version: '>=1.21.0'
-
-      - name: pre-commit
-        uses: flufi-io/workflows/.github/workflows/terraform_precommit.yaml@main
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: run terratest
-        working-directory: main/tests
-        run: |
-          export GOOS=linux GOARCH=amd64 CGO_ENABLED=0
-          go mod init test
-          go mod tidy > /dev/null
-          go test -v -count=1 -timeout 120m ./...
+    uses: flufi-io/workflows/.github/workflows/terratest.yaml@main
+    secrets: inherit
