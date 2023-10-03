@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+env:
+  DOCKER_USERNAME: ${{ github.actor }}
+  DOCKER_PASSWORD: ${{ secrets.github_token }}
+
 jobs:
   pre-commit:
     uses: flufi-io/workflows/.github/workflows/terraform_precommit.yaml@main
