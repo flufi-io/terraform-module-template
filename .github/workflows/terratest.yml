@@ -32,7 +32,7 @@ jobs:
           # Export loaded secrets as environment variables
           export-env: true
         env:
-          json: op://flufi-sandbox/aws-github-oidc/aws
+          json: op://flufi-sandbox/aws/json
 
 
       - name: configure aws credentials
