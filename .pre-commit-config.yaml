@@ -11,6 +11,19 @@ repos:
         files: (\.tf|\.tfvars)$
         exclude: \.terraform\/.*$
 
+      - id: terraform_validate
+        name: Terraform validate
+        description: Validates all Terraform configuration files.
+        require_serial: true
+        entry: hooks/terraform_validate.sh
+        language: script
+        files: (\.tf|\.tfvars)$
+        exclude: \.terraform\/.*$
+        args:
+          - --tf-init-args=-upgrade
+          - --tf-init-args=-reconfigure
+          - --hook-config=--retry-once-with-cleanup=true
+
       - id: terraform_providers_lock
         name: Lock terraform provider versions
         description: Updates provider signatures in dependency lock files.
@@ -28,19 +41,6 @@ repos:
         language: script
         files: (\.tf|\.tfvars)$
         exclude: \.terraform\/.*$
-
-      - id: terraform_validate
-        name: Terraform validate
-        description: Validates all Terraform configuration files.
-        require_serial: true
-        entry: hooks/terraform_validate.sh
-        language: script
-        files: (\.tf|\.tfvars)$
-        exclude: \.terraform\/.*$
-        args:
-          - --tf-init-args=-upgrade
-          - --tf-init-args=-reconfigure
-          - --hook-config=--retry-once-with-cleanup=true
 
       - id: terraform_tfsec
         name: Terraform validate with tfsec
