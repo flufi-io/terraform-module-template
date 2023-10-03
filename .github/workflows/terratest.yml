@@ -32,15 +32,15 @@ jobs:
           # Export loaded secrets as environment variables
           export-env: true
         env:
-          json: op://flufi-sandbox/aws/json
+          SECRETS: op://flufi-sandbox/aws/json
 
 
       - name: configure aws credentials
         id: configure-aws-credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ fromJson(env.json).aws.role }}
-          aws-region: ${{ fromJson(env.json).aws.region }}
+          role-to-assume: ${{ fromJson(env.SECRETS).aws.role }}
+          aws-region: ${{ fromJson(env.SECRETS).aws.region }}
 
 
       - name: checkout
