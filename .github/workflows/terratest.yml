@@ -58,15 +58,23 @@ jobs:
         run: |
           cd main/examples/complete
           sops -d terraform.enc > terraform.tfvars
+
       - uses: actions/setup-go@v4
         with:
           cache-dependency-path: main/tests/go.mod
           go-version: '>=1.21.0'
 
+      - name: pre-commit
+        uses: flufi-io/workflows/.github/workflows/terraform_precommit.yaml@main
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
       - name: run terratest
         working-directory: main/tests
         env:
           GITHUB_TOKEN: ${{ secrets.token }}
+          DOCKER_USERNAME: ${{ github.actor }}
+          DOCKER_PASSWORD: ${{ secrets.GH_TOKEN }}
         run: |
           export GOOS=linux GOARCH=amd64 CGO_ENABLED=0
           go mod init test
