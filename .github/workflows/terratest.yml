@@ -6,47 +6,14 @@ on:
     branches:
       - '*'
 
+
 permissions:
   id-token: write
   contents: read
-  pull-requests: write
-  issues: write
-  repository-projects: write
 
 jobs:
   terratest:
-    runs-on: ubuntu-latest
-    steps:
-      - name: configure aws credentials
-        id: configure-aws-credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ secrets.OIDC_ROLE }}
-          aws-region: ${{ secrets.AWS_REGION }}
-      - name: checkout
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          path: main
-      - name: install sops
-        run: |
-          wget https://github.com/mozilla/sops/releases/download/v3.7.3/sops_3.7.3_amd64.deb
-          sudo dpkg -i sops_3.7.3_amd64.deb
-      - name: decrypt secrets
-        run: |
-          cd main/examples/complete
-          sops -d terraform.enc > terraform.tfvars
-      - uses: actions/setup-go@v4
-        with:
-          cache-dependency-path: main/tests/go.mod
-          go-version: '>=1.17.0'
-
-      - name: run terratest
-        working-directory: main/tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.token }}
-        run: |
-          export GOOS=linux GOARCH=amd64 CGO_ENABLED=0
-          go mod init test
-          go mod tidy > /dev/null
-          go test -v -count=1 -timeout 120m ./...
+    uses: flufi-io/workflows/.github/workflows/terratest.yaml@main
+    with:
+      ref: ${{ github.event.pull_request.head.sha }}
+    secrets: inherit

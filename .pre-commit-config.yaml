@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.81.2  # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
+    rev: v1.83.4  # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
     hooks:
       - id: terraform_fmt
         name: Terraform fmt
@@ -10,6 +10,19 @@ repos:
         language: script
         files: (\.tf|\.tfvars)$
         exclude: \.terraform\/.*$
+
+      - id: terraform_validate
+        name: Terraform validate
+        description: Validates all Terraform configuration files.
+        require_serial: true
+        entry: hooks/terraform_validate.sh
+        language: script
+        files: (\.tf|\.tfvars)$
+        exclude: \.terraform\/.*$
+        args:
+          - --tf-init-args=-upgrade
+          - --tf-init-args=-reconfigure
+          - --hook-config=--retry-once-with-cleanup=true
 
       - id: terraform_providers_lock
         name: Lock terraform provider versions
@@ -25,15 +38,6 @@ repos:
         description: Validates all Terraform configuration files with TFLint.
         require_serial: true
         entry: hooks/terraform_tflint.sh
-        language: script
-        files: (\.tf|\.tfvars)$
-        exclude: \.terraform\/.*$
-
-      - id: terraform_validate
-        name: Terraform validate
-        description: Validates all Terraform configuration files.
-        require_serial: true
-        entry: hooks/terraform_validate.sh
         language: script
         files: (\.tf|\.tfvars)$
         exclude: \.terraform\/.*$
@@ -54,6 +58,8 @@ repos:
         files: \.tf$
         exclude: \.terraform\/.*$
         require_serial: true
+        args:
+          - --args=--config-file __GIT_WORKING_DIR__/.checkov.yml
 
       - id: terraform_docs
         name: Terraform docs
@@ -63,6 +69,7 @@ repos:
         language: script
         files: (\.tf|\.terraform\.lock\.hcl)$
         exclude: \.terraform\/.*$
+
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.32.0
     hooks:
