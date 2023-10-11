@@ -1,4 +1,5 @@
 namespace   = "flufi"
-environment = "development"
+environment = "sandbox"
 stage       = "module"
 label_order = ["namespace", "stage", "environment"]
+name        = "template"
