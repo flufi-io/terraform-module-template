@@ -20,7 +20,7 @@ func Test(t *testing.T) {
 	originalName := terraform.GetVariableAsStringFromVarFile(t, "../../examples/complete/terraform.tfvars", "name")
 
 	// Update the name variable with the original value plus the hash
-	name := originalName + randHash
+	name := originalName + "-terratest-" + randHash
 
 	terraformOptions := &terraform.Options{
 		TerraformDir: "../../examples/complete/",
@@ -30,6 +30,7 @@ func Test(t *testing.T) {
 		},
 		Upgrade:     true,
 		Reconfigure: true,
+		Lock:        true,
 	}
 
 	defer terraform.Destroy(t, terraformOptions)

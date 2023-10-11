@@ -2,12 +2,9 @@
 name: terraform pre-commit
 on:
   pull_request:
-    branches:
-      - '*'
 
 permissions:
   contents: read
-
 
 jobs:
   pre-commit:

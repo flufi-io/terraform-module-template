@@ -3,9 +3,6 @@ name: terratest
 
 on:
   pull_request:
-    branches:
-      - '*'
-
 
 permissions:
   id-token: write
