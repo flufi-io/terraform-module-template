@@ -23,8 +23,12 @@ sections:
 content: |-
   # Examples
   ```hcl
+  # main.tf
   {{ include "examples/complete/main.tf" }}
-  {{ include "examples/complete/example.tfvars" }}
+  ```
+  ```hcl
+  # terraform.tfvars.json
+  {{ include "examples/complete/example.tfvars.json" }}
   ```
   {{ .Header }}
   {{ .Providers }}

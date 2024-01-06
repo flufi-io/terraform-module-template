@@ -7,17 +7,33 @@
 <!-- BEGIN_TF_DOCS -->
 # Examples
 ```hcl
+# main.tf
 module "random" {
   source  = "../../"
   context = module.this.context
 }
-namespace   = "flufi"
-environment = "development"
-stage       = "module"
-label_order = ["namespace", "stage", "environment"]
+```
+```hcl
+# terraform.tfvars.json
+{
+  "environment": "development",
+  "label_order": [
+    "namespace",
+    "stage",
+    "name",
+    "environment"
+  ],
+  "name": "template",
+  "namespace": "flufi",
+  "stage": "module"
+}
 ```
 
+## Providers
 
+| Name | Version |
+|------|---------|
+| <a name="provider_random"></a> [random](#provider\_random) | 3.6.0 |
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -43,6 +59,7 @@ label_order = ["namespace", "stage", "environment"]
 
 ## Resources
 
+- resource.random_password.password (main.tf#1)
 <!-- END_TF_DOCS -->
 
 
