@@ -1,7 +1,14 @@
----
 creation_rules:
-  - kms: arn:aws:kms:us-east-1:732758452413:key/bcc8401b-38ff-44d7-8355-8f9869d6ba61
+  # sandbox environment
+  - path_regex: \.sandbox\.tfvars.*$
+    kms: arn:aws:kms:us-east-1:732758452413:key/00fbbabe-fdea-4fea-91aa-d52dbf5f62e5
 
 sops:
   kms:
-    - arn: arn:aws:kms:us-east-1:732758452413:key/bcc8401b-38ff-44d7-8355-8f9869d6ba61
+    - arn: arn:aws:kms:us-east-1:732758452413:key/00fbbabe-fdea-4fea-91aa-d52dbf5f62e5
+
+stores:
+  json:
+    indent: 2
+  json_binary:
+    indent: 2
