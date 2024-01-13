@@ -98,14 +98,8 @@ func runSecretsScript(scriptName string, args ...string) error {
 }
 
 func runInitCommands() error {
-	// Run 'tfenv use latest'
-	err := runCommand("tfenv", "use", "latest")
-	if err != nil {
-		log.Printf("Failed to run tfenv use latest: %s", err)
-		return err
-	}
 	// Run 'pre-commit install --install-hooks'
-	err = runCommand("pre-commit", "install", "--install-hooks")
+	err := runCommand("pre-commit", "install", "--install-hooks")
 	if err != nil {
 		log.Printf("Failed to run pre-commit install --install-hooks: %s", err)
 	}

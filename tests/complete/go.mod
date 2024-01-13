@@ -2,7 +2,10 @@ module test
 
 go 1.21.5
 
-require github.com/gruntwork-io/terratest v0.46.8
+require (
+	github.com/gruntwork-io/terratest v0.46.8
+	github.com/sirupsen/logrus v1.8.1
+)
 
 require (
 	cloud.google.com/go v0.110.0 // indirect
