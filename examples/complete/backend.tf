@@ -1,5 +1,5 @@
 terraform {
   backend "s3" {
-    key = "terraform-module-template"
+    key = "terraform-module-template.tfstate"
   }
 }
