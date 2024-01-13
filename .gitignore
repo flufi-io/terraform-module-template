@@ -4,12 +4,8 @@
 *.tfstate*
 **/.terraform
 .terraform
-**/.terraform.lock.hcl
-.terraform.lock.hcl
 !**/.terraform-docs.yml
 !.terraform-docs.yml
-**/go.*
-go.*
 .env
 **/terraform.tfvars
 terraform.tfvars

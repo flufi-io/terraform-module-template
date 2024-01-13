@@ -41,6 +41,8 @@ repos:
         language: script
         files: (\.tf|\.tfvars)$
         exclude: \.terraform\/.*$
+        args:
+          - --args=--config __GIT_WORKING_DIR__/.config/.tflint.hcl
 
       - id: terraform_tfsec
         name: Terraform validate with tfsec
@@ -48,6 +50,8 @@ repos:
         require_serial: true
         entry: hooks/terraform_tfsec.sh
         language: script
+        args:
+          - --args=--config-file __GIT_WORKING_DIR__/.config/.tfsec.yml
 
       - id: terraform_checkov
         name: Checkov
@@ -59,7 +63,7 @@ repos:
         exclude: \.terraform\/.*$
         require_serial: true
         args:
-          - --args=--config-file __GIT_WORKING_DIR__/.checkov.yml
+          - --args=--config-file __GIT_WORKING_DIR__/.config/.checkov.yml
 
       - id: terraform_docs
         name: Terraform docs
@@ -70,13 +74,23 @@ repos:
         files: (\.tf|\.terraform\.lock\.hcl)$
         exclude: \.terraform\/.*$
 
+      - id: tfupdate
+        name: auto update terraform providers
+        args:
+          - --args=lock
+          - --args=--platform=linux_amd64
+          - --args=--platform=linux_arm64
+          - --args=--platform=darwin_amd64
+          - --args=--platform=darwin_arm64
+
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.33.0
     hooks:
       - id: yamllint
         args:
-          - -c=.config/yamllint.yaml
+          - -c=.config/.yamllint.yaml
           - --strict
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
