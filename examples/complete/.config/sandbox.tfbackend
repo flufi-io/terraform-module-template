@@ -1,0 +1,5 @@
+bucket="flufi-terraform-backend-sandbox-us-east-1"
+region="us-east-1"
+dynamodb_table="flufi-terraform-backend-sandbox-us-east-1"
+encrypt = "true"
+acl     = "bucket-owner-full-control"
