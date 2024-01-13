@@ -98,21 +98,8 @@ func runSecretsScript(scriptName string, args ...string) error {
 }
 
 func runInitCommands() error {
-	// Run 'tofuenv use latest'
-	err := runCommand("tofuenv", "use", "latest")
-	if err != nil {
-		log.Printf("Failed to run tofuenv use latest: %s", err)
-		return err
-	}
-	_ = runCommand("export", "TERRAFORM=", "$(which tofu)", "sed", "s/tofu/terraform/g")
-
-	err = runCommand("ln", "-f", "$(which tofu)", "$TERRAFORM")
-	if err != nil {
-		log.Printf("Failed to run ln -f /opt/homebrew/bin/tofu /opt/homebrew/bin/terraform: %s", err)
-		return err
-	}
 	// Run 'pre-commit install --install-hooks'
-	err = runCommand("pre-commit", "install", "--install-hooks")
+	err := runCommand("pre-commit", "install", "--install-hooks")
 	if err != nil {
 		log.Printf("Failed to run pre-commit install --install-hooks: %s", err)
 	}
