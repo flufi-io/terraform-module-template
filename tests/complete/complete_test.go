@@ -104,9 +104,11 @@ func runInitCommands() error {
 		log.Printf("Failed to run tofuenv use latest: %s", err)
 		return err
 	}
-	err = runCommand("ln", "-s", "/opt/homebrew/bin/tofu", "/opt/homebrew/bin/terraform")
+	_ = runCommand("export", "TERRAFORM=", "$(which tofu)", "sed", "s/tofu/terraform/g")
+
+	err = runCommand("ln", "-f", "$(which tofu)", "$TERRAFORM")
 	if err != nil {
-		log.Printf("Failed to run ln -s /opt/homebrew/bin/tofu /opt/homebrew/bin/terraform: %s", err)
+		log.Printf("Failed to run ln -f /opt/homebrew/bin/tofu /opt/homebrew/bin/terraform: %s", err)
 		return err
 	}
 	// Run 'pre-commit install --install-hooks'
