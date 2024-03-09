@@ -8,8 +8,8 @@ header-from: main.tf
 footer-from: ""
 
 recursive:
-  enabled: false
-  path: modules
+  enabled: true
+  path: examples
 
 sections:
   show:
@@ -28,7 +28,11 @@ content: |-
   ```
   ```hcl
   # terraform.tfvars.json
-  {{ include "examples/complete/example.tfvars.json" }}
+  {{ include "examples/complete/terraform.tfvars.json" }}
+  ```
+    ```hcl
+  # variables.tf
+  {{ include "examples/complete/variables.tf" }}
   ```
   {{ .Header }}
   {{ .Providers }}

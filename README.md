@@ -28,6 +28,10 @@ module "random" {
   "stage": "module"
 }
 ```
+  ```hcl
+# variables.tf
+
+```
 
 ## Providers
 

@@ -10,5 +10,5 @@
 **/terraform.tfvars
 terraform.tfvars
 **.external_modules/
-!**/example.tfvars.json
+!**/terraform.tfvars.json
 *.tfvars.json

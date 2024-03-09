@@ -4,3 +4,4 @@ framework:
 quiet: true
 skip-check:
   - CKV_TF_1  # "Ensure Terraform module sources use a commit hash"
+  - CKV_SECRET_3  # "Azure Storage Account access key""

@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.86.0  # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
+    rev: v1.88.0  # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
     hooks:
       - id: terraform_fmt
         name: Terraform fmt
@@ -49,6 +49,7 @@ repos:
         description: Static analysis of Terraform templates to spot potential security issues.
         require_serial: true
         entry: hooks/terraform_tfsec.sh
+        exclude: \.terraform\/.*$|.*\.tfvars\.enc\.json$
         language: script
         args:
           - --args=--config-file __GIT_WORKING_DIR__/.config/.tfsec.yml
@@ -60,7 +61,7 @@ repos:
         language: script
         always_run: false
         files: \.tf$
-        exclude: \.terraform\/.*$
+        exclude: \.terraform\/.*$|.*\.tfvars\.enc\.json$
         require_serial: true
         args:
           - --args=--config-file __GIT_WORKING_DIR__/.config/.checkov.yml
@@ -84,7 +85,7 @@ repos:
           - --args=--platform=darwin_arm64
 
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.33.0
+    rev: v1.35.1
     hooks:
       - id: yamllint
         args:
