@@ -51,6 +51,6 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
-domain: http://github.pipops.com       # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
-url: http://github.pipops.com  # the base hostname and protocol for your site, e.g. http://example.com
+domain: https://github.pipops.com       # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
+url: https://github.pipops.com  # the base hostname and protocol for your site, e.g. http://example.com
 baseurl: /docs      # place folder name if the site is served in a subfolder
