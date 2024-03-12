@@ -1,6 +1,6 @@
 creation_rules:
   # sandbox environment
-  - path_regex: \.sandbox\.tfvars.*$
+  - path_regex: secrets.*\.us-east-1.*.tfvars.*.json$
     kms: arn:aws:kms:us-east-1:732758452413:key/00fbbabe-fdea-4fea-91aa-d52dbf5f62e5
 
 sops:

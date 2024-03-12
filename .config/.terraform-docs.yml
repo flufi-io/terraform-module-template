@@ -27,8 +27,8 @@ content: |-
   {{ include "examples/complete/main.tf" }}
   ```
   ```hcl
-  # terraform.tfvars.json
-  {{ include "examples/complete/example.tfvars.json" }}
+  # terraform.tfvars
+  {{ include "examples/complete/terraform.tfvars" }}
   ```
   {{ .Header }}
   {{ .Providers }}

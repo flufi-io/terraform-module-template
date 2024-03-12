@@ -7,8 +7,6 @@
 !**/.terraform-docs.yml
 !.terraform-docs.yml
 .env
-**/terraform.tfvars
-terraform.tfvars
 **.external_modules/
 !**/example.tfvars.json
 *.tfvars.json
