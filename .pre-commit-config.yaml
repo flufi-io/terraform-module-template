@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.86.0  # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
+    rev: v1.88.1  # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
     hooks:
       - id: terraform_fmt
         name: Terraform fmt
@@ -9,7 +9,7 @@ repos:
         entry: hooks/terraform_fmt.sh
         language: script
         files: (\.tf|\.tfvars)$
-        exclude: \.terraform\/.*$
+        exclude: ^\.terraform/.*$|^\.external_modules/.*$
 
       - id: terraform_validate
         name: Terraform validate
@@ -18,7 +18,7 @@ repos:
         entry: hooks/terraform_validate.sh
         language: script
         files: (\.tf|\.tfvars)$
-        exclude: \.terraform\/.*$
+        exclude: ^\.terraform/.*$|^\.external_modules/.*$
         args:
           - --tf-init-args=-upgrade
           - --tf-init-args=-reconfigure
@@ -31,7 +31,7 @@ repos:
         entry: hooks/terraform_providers_lock.sh
         language: script
         files: (\.terraform\.lock\.hcl)$
-        exclude: \.terraform\/.*$
+        exclude: ^\.terraform/.*$|^\.external_modules/.*$
 
       - id: terraform_tflint
         name: Terraform validate with tflint
@@ -40,7 +40,7 @@ repos:
         entry: hooks/terraform_tflint.sh
         language: script
         files: (\.tf|\.tfvars)$
-        exclude: \.terraform\/.*$
+        exclude: ^\.terraform/.*$|^\.external_modules/.*$
         args:
           - --args=--config __GIT_WORKING_DIR__/.config/.tflint.hcl
 
@@ -60,7 +60,7 @@ repos:
         language: script
         always_run: false
         files: \.tf$
-        exclude: \.terraform\/.*$
+        exclude: ^\.terraform/.*$|^\.external_modules/.*$|^.*.enc.*$
         require_serial: true
         args:
           - --args=--config-file __GIT_WORKING_DIR__/.config/.checkov.yml
@@ -72,7 +72,7 @@ repos:
         entry: hooks/terraform_docs.sh
         language: script
         files: (\.tf|\.terraform\.lock\.hcl)$
-        exclude: \.terraform\/.*$
+        exclude: ^\.terraform/.*$|^\.external_modules/.*$
 
       - id: tfupdate
         name: auto update terraform providers
@@ -84,7 +84,7 @@ repos:
           - --args=--platform=darwin_arm64
 
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.33.0
+    rev: v1.35.1
     hooks:
       - id: yamllint
         args:

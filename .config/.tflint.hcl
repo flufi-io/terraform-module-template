@@ -10,7 +10,7 @@ config {
 
 plugin "aws" {
   enabled = true
-  version = "0.26.0"
+  version = "0.30.0"
   source  = "github.com/terraform-linters/tflint-ruleset-aws"
 }
 rule "aws_instance_invalid_type" {

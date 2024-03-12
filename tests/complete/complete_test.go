@@ -45,12 +45,12 @@ func TestTerraform(t *testing.T) {
 	t.Parallel()
 	// Generate a random string
 	randHash := random.UniqueId()
-	originalName := terraform.GetVariableAsStringFromVarFile(t, "../../examples/complete/fixtures.sandbox.tfvars.json", "name")
+	originalName := terraform.GetVariableAsStringFromVarFile(t, "../../examples/complete/terraform.tfvars", "name")
 	// Update the name variable with the original value plus the hash
-	name := originalName + "-terratest-" + randHash
+	name := originalName + "-tst-" + randHash
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		TerraformDir: "../../examples/complete/",
-		VarFiles:     []string{"fixtures.sandbox.tfvars.json"},
+		VarFiles:     []string{"fixtures.sandbox.us-east-1.tfvars"},
 		Vars: map[string]interface{}{
 			"name": name,
 		},

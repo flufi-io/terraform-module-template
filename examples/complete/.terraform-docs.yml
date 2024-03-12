@@ -26,8 +26,8 @@ content: |-
   {{ include "main.tf" }}
   ```
   ```hcl
-  # terraform.tfvars.json
-  {{ include "example.tfvars.json" }}
+  # terraform.tfvars
+  {{ include "terraform.tfvars" }}
   ```
     ```hcl
   # variables.tf

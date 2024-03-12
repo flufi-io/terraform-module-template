@@ -1,7 +1,5 @@
 module "this" {
-  source  = "cloudposse/label/null"
-  version = "0.25.0" # requires Terraform >= 0.13.0
-
+  source              = "git@github.com:flufi-io/terraform-null-label.git?ref=tags/0.0.2"
   enabled             = var.enabled
   namespace           = var.namespace
   tenant              = var.tenant
@@ -19,8 +17,9 @@ module "this" {
   label_value_case    = var.label_value_case
   descriptor_formats  = var.descriptor_formats
   labels_as_tags      = var.labels_as_tags
-
-  context = var.context
+  description         = var.description
+  region              = var.region
+  context             = var.context
 }
 
 # Copy contents of cloudposse/terraform-null-label/variables.tf here
@@ -62,12 +61,16 @@ variable "context" {
   EOT
 
   validation {
-    condition     = lookup(var.context, "label_key_case", null) == null ? true : contains(["lower", "title", "upper"], var.context["label_key_case"])
+    condition = lookup(var.context, "label_key_case", null) == null ? true : contains([
+      "lower", "title", "upper"
+    ], var.context["label_key_case"])
     error_message = "Allowed values: `lower`, `title`, `upper`."
   }
 
   validation {
-    condition     = lookup(var.context, "label_value_case", null) == null ? true : contains(["lower", "title", "upper", "none"], var.context["label_value_case"])
+    condition = lookup(var.context, "label_value_case", null) == null ? true : contains([
+      "lower", "title", "upper", "none"
+    ], var.context["label_value_case"])
     error_message = "Allowed values: `lower`, `title`, `upper`, `none`."
   }
 }
@@ -230,7 +233,9 @@ variable "label_value_case" {
   EOT
 
   validation {
-    condition     = var.label_value_case == null ? true : contains(["lower", "title", "upper", "none"], var.label_value_case)
+    condition = var.label_value_case == null ? true : contains([
+      "lower", "title", "upper", "none"
+    ], var.label_value_case)
     error_message = "Allowed values: `lower`, `title`, `upper`, `none`."
   }
 }
@@ -255,30 +260,14 @@ variable "descriptor_formats" {
 }
 
 #### End of copy of cloudposse/terraform-null-label/variables.tf
-
-
-module "label" {
-  source  = "cloudposse/label/null"
-  version = "0.25.0"
-  context = module.this.context
-  name    = module.this.name
-}
-module "oct" {
-  source  = "cloudposse/label/null"
-  version = "0.25.0"
-  context = module.this.context
-  name    = "${module.this.name}-oct-key"
+variable "description" {
+  type        = string
+  description = "Description of the resource, if empty, description = id"
+  default     = null
 }
 
-module "ssh" {
-  source  = "cloudposse/label/null"
-  version = "0.25.0"
-  context = module.this.context
-  name    = "${module.this.name}-ssh-key"
-}
-module "msk" {
-  source  = "cloudposse/label/null"
-  version = "0.25.0"
-  context = module.this.context
-  name    = "${module.this.name}-msk"
+variable "region" {
+  type        = string
+  description = "The region in which the resource will be created"
+  default     = null
 }
