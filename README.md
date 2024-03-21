@@ -1,17 +1,48 @@
-[![terratest](https://github.com/flufi-io/terraform-module-template/actions/workflows/terratest.yml/badge.svg)](https://github.com/flufi-io/terraform-module-template/actions/workflows/terratest.yml)
-[![infracost](https://github.com/flufi-io/terraform-module-template/actions/workflows/infracost.yml/badge.svg)](https://github.com/flufi-io/terraform-module-template/actions/workflows/infracost.yml)
-[![terraform pre-commit](https://github.com/flufi-io/terraform-module-template/actions/workflows/terraform_precommit.yaml/badge.svg)](https://github.com/flufi-io/terraform-module-template/actions/workflows/terraform_precommit.yaml)
-
 # terraform-module-template
+
+## Install and configure the tools
+````shell
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install jq
+brew install go
+brew install terraform-docs
+brew install pre-commit
+brew install trivy
+brew install checkov
+brew install tflint
+brew install tfenv
+````
+
+
+## How to test
+### Local test
+#### MacOs and Linux
+
+```shell
+# inside a test folder like /terraform-module-template/tests/complete
+export GOOS=darwin CGO_ENABLED=0 GOARCH=amd64
+# TIME_TO_DESTROY is the time in seconds between terraform apply and terraform destroy
+go mod init  test
+go mod tidy
+TIME_TO_DESTROY=10 go test -v  -timeout 120m -count=1
+```
+
+## How to use pre-commit
+
+```shell
+# in the root of the module
+pre-commit autoupdate
+pre-commit install --install-hooks
+pre-commit run -a
+```
 
 <!-- BEGIN_TF_DOCS -->
 # Examples
 ```hcl
 # main.tf
 module "random" {
-  source     = "../../"
-  context    = module.this.context
-  attributes = [var.secret]
+  source  = "../../"
+  context = module.this.context
 }
 ```
 ```hcl
@@ -20,6 +51,14 @@ namespace   = "flufi"
 stage       = "module"
 label_order = ["namespace", "stage", "name", "environment", "attributes"]
 name        = "template"
+```
+  ```hcl
+# variables.tf
+variable "secret" {
+  type        = string
+  description = "The secret to be test sops"
+  sensitive   = true
+}
 ```
 
 
@@ -50,26 +89,3 @@ name        = "template"
 
 ## Resources
 <!-- END_TF_DOCS -->
-
-
-MIT License
-
-Copyright (c) [2023] Flufi LLC
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.

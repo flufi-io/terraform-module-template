@@ -1,12 +1,26 @@
+# .gitignore file for a Go project using Terraform and storing secrets in JSON files
+
+# Ignore IDE configuration directories
+# These directories contain user-specific settings and should not be included in the repository.
 .idea
 .vscode
+
+# Ignore Terraform state files and directories
+# Terraform uses state data to manage and track resources, and these files can contain sensitive information and should not be committed to the repository.
 **/*.tfstate*
 *.tfstate*
 **/.terraform
 .terraform
-!**/.terraform-docs.yml
-!.terraform-docs.yml
+
+# Ignore environment variables file
+# These files are often used to store sensitive information such as API keys and database credentials, and should not be committed to the repository.
 .env
+
+# Ignore external modules directory, default path of Checkov
 **.external_modules/
-!**/example.tfvars.json
+**/.external_modules
+
+# Ignore JSON files containing Terraform variables
+# These files are often used to define environment-specific configurations, and may contain sensitive data.
 *.tfvars.json
+**/.tfvars.json
